@@ -72,3 +72,11 @@ class Roll(TimeStampedModel):
 
     def __str__(self):
         return "{number} on {embargo}".format(**model_to_dict(self))
+
+
+class Episode(models.Model):
+    """An Episode"""
+
+    title = models.CharField(max_length=256)
+    date = models.DateTimeField()
+    itunes_id = models.SmallIntegerField(unique=True)

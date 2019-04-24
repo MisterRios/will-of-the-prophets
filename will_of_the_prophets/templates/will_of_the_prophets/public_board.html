@@ -49,6 +49,13 @@
     <div class="lcars-group__horizontal-bar lcars-group__horizontal-bar--bottom">
         {% include "_lcars_filler.html" with color="dodger-blue" bottom_left_inner_elbow=True only %}
     </div>
+        <select onChange="window.location.href=this.value" name="episodes" id="episodes">
+          <option value="">Current Episode</option>
+          {% for episode in episodes %}
+          <option  value="./?episode={{ episode.itunes_id }}" {% if selected == episode.itunes_id %} selected{% endif %}>{{ episode.title }}</option>
+          {% endfor %}
+        </select>
+
 </section>
 
 {% include "will_of_the_prophets/_footer.html" %}

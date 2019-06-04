@@ -1,3 +1,4 @@
+"""Imports Episode Titles."""
 import datetime
 
 from django.core.management.base import BaseCommand
@@ -8,6 +9,7 @@ from will_of_the_prophets.models import Episode
 
 
 class Command(BaseCommand):
+    """Management Command to download episode titles and save them to the database"""
     help = "Downloads episode titles and saves them to the database"
 
     def handle(self, *args, **options):

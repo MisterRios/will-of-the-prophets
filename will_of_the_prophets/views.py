@@ -37,10 +37,38 @@ def public_board(request):
     now = timezone.now()
     special_squares = board.get_special_squares(now)
     special_square_types = set(special_squares.values())
+    episodes = None
+    error_messages = []
+    board_public = board.Board(now)
+
+    episode_id = request.GET.get("episode", None)
+    if episode_id:
+        try:
+            episode = models.Episode.objects.get(itunes_id=episode_id)
+        except models.Episode.DoesNotExist:
+            error_messages.append("Not a valid episode number")
+        else:
+            board_public = board.Board(now=episode.date)
+
+    if models.Roll.objects.exists():
+        first_roll_date = models.Roll.objects.first().embargo.date()
+        last_roll_date = models.Roll.objects.last().embargo.date()
+        latest_published_episode_date = min(last_roll_date, timezone.now().date())
+        episodes = models.Episode.objects.filter(
+            date__range=(first_roll_date, latest_published_episode_date)
+        )
+        episodes = episodes.values("itunes_id", "title")
+
     response = render(
         request,
         "will_of_the_prophets/public_board.html",
-        {"board": board.Board(now), "special_square_types": special_square_types},
+        {
+            "board": board_public,
+            "special_square_types": special_square_types,
+            "episodes": episodes,
+            "selected": episode_id,
+            "error_messages": error_messages,
+        },
     )
 
     canonical_url = settings.PUBLIC_BOARD_CANONICAL_URL

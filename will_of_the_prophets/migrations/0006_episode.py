@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("title", models.CharField(max_length=256)),
-                ("date", models.DateTimeField()),
+                ("date", models.DateField()),
                 ("itunes_id", models.SmallIntegerField(unique=True)),
             ],
         )

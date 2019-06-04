@@ -78,5 +78,5 @@ class Episode(models.Model):
     """An Episode"""
 
     title = models.CharField(max_length=256)
-    date = models.DateTimeField()
+    date = models.DateField()
     itunes_id = models.SmallIntegerField(unique=True)
